@@ -1,4 +1,4 @@
-package cuepkg
+package pkg
 
 #Deployment: {
   apiVersion: "apps/v1"
