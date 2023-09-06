@@ -6,7 +6,6 @@ import (
 
 #Config: {
 	id: string
-	env: string
 	imageName: string
 	containerPort: int
 }
@@ -16,8 +15,8 @@ import (
 	apiVersion: "apps/v1"
 	kind:       "Deployment"
 	metadata: {
-		name:      _config.env + "-" + _config.id
-		namespace: _config.env
+		name:      _config.id
+		namespace: "default"
 	}
 	spec: {
 		replicas:             1
