@@ -1,29 +1,37 @@
 package pkg
 
-#Deployment: {
-  apiVersion: "apps/v1"
-  kind: "Deployment"
-  metadata: {
-    name: "cue-demo"
-    namespace: "default"
-  }
-  spec: {
-    replicas: 4
-    revisionHistoryLimit: 3
-    selector: matchLabels: app: "cue-demo"
-    template: {
-      metadata: labels: app: "cue-demo"
-      spec: containers: [
-        {
-          image: string
-          name: "cue-demo"
-          ports: [
-            {
-              containerPort: 9090
-            }
-          ]
-        }
-      ]
-    }
-  }
+import (
+	apps_v1 "k8s.io/api/apps/v1"
+)
+
+#Config: {
+	id: string
+	env: string
+	imageName: string
+	containerPort: int
+}
+
+#Deployment: apps_v1.#Deployment & {
+	_config: #Config
+	apiVersion: "apps/v1"
+	kind:       "Deployment"
+	metadata: {
+		name:      _config.env + "-" + _config.id
+		namespace: _config.env
+	}
+	spec: {
+		replicas:             1
+		revisionHistoryLimit: 3
+		selector: matchLabels: app: _config.id
+		template: {
+			metadata: labels: app: _config.id
+			spec: containers: [{
+				image: _config.imageName
+				name:  _config.id
+				ports: [{
+					containerPort: _config.containerPort
+				}]
+			}]
+		}
+	}
 }
