@@ -8,7 +8,7 @@ package pkg
     namespace: "default"
   }
   spec: {
-    replicas: 3
+    replicas: 4
     revisionHistoryLimit: 3
     selector: matchLabels: app: "cue-demo"
     template: {
